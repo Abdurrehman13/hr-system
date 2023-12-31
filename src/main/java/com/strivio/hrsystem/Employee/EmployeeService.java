@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +26,32 @@ public class EmployeeService {
             throw new IllegalStateException("Email taken");
         }
         repository.save(employee);
+    }
+
+    @Transactional
+    public void updateEmployee(Employee emp) {
+        Employee dbEmployee = repository.findById(emp.getId())
+            .orElseThrow(() -> new IllegalStateException(
+                "Employee with id" + emp.getId() + " not found"
+            ));
+        
+        
+        if (!emp.getEmail().equals(dbEmployee.getEmail())) {
+            Optional<Employee> employeeOptional = repository.findByEmail(emp.getEmail());
+            if (employeeOptional.isPresent()) {
+                throw new IllegalStateException("Email taken");
+            }
+            dbEmployee.setEmail(emp.getEmail());
+        }
+        
+        dbEmployee.setFirstname(emp.getFirstname());
+        dbEmployee.setLastname(emp.getLastname());
+        dbEmployee.setDob(emp.getDob());
+   
+    }
+
+    public void deleteEmployee(Long employeeId) {
+        repository.deleteById(employeeId);
     }
     
 }

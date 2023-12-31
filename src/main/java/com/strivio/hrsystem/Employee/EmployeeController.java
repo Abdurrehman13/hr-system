@@ -4,8 +4,11 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,4 +32,15 @@ public class EmployeeController {
     public void saveEmployee(@Validated @RequestBody Employee employee) {
         employeeService.saveEmployee(employee);
     } 
+
+    @PutMapping
+    public void updateEmployee(@Validated @RequestBody Employee employee) {
+        employeeService.updateEmployee(employee);
+    }
+
+    @DeleteMapping("{employeeId}")
+    public void updateEmployee(@PathVariable Long employeeId) {
+        employeeService.deleteEmployee(employeeId);
+    }
+
 }
