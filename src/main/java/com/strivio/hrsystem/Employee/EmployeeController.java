@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.strivio.hrsystem.Auth.AuthResponse;
+
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -29,8 +31,8 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public void saveEmployee(@Validated @RequestBody Employee employee) {
-        employeeService.saveEmployee(employee);
+    public ResponseEntity<AuthResponse> saveEmployee(@Validated @RequestBody Employee employee) {
+        return ResponseEntity.ok(employeeService.saveEmployee(employee));
     } 
 
     @PutMapping
